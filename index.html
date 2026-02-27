@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fracciones - Grado 5°</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap');
+
+  :root {
+    --yellow: #FFD166;
+    --coral: #EF476F;
+    --teal: #06D6A0;
+    --blue: #118AB2;
+    --purple: #7B2D8B;
+    --dark: #1A1A2E;
+    --light: #F8F4FF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--dark);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+    text-align: center;
+    padding: 2.5rem 1rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(255,209,102,0.15) 0%, transparent 60%),
+                radial-gradient(circle at 80% 30%, rgba(6,214,160,0.15) 0%, transparent 50%);
+  }
+  header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: var(--yellow);
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+    position: relative;
+  }
+  header p {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.85);
+    margin-top: 0.5rem;
+    position: relative;
+  }
+
+  /* NAV PILLS */
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem;
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav button {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    padding: 0.5rem 1.4rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .nav button:hover, .nav button.active {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  .nav button[data-tab="intro"].active { background: var(--yellow); color: var(--dark); border-color: var(--yellow); }
+  .nav button[data-tab="a1"].active { background: var(--coral); border-color: var(--coral); }
+  .nav button[data-tab="a2"].active { background: var(--teal); color: var(--dark); border-color: var(--teal); }
+  .nav button[data-tab="a3"].active { background: var(--blue); border-color: var(--blue); }
+  .nav button[data-tab="a4"].active { background: var(--purple); border-color: var(--purple); }
+  .nav button[data-tab="a5"].active { background: var(--coral); border-color: var(--coral); }
+
+  /* CONTENT */
+  main { max-width: 960px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+
+  .tab-content { display: none; animation: fadeIn 0.4s ease; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  /* CARDS */
+  .card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+  }
+  .card h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .card p { line-height: 1.7; color: rgba(255,255,255,0.85); margin-bottom: 0.75rem; }
+
+  /* REPRESENTATION TABLE */
+  .rep-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .rep-box {
+    border-radius: 16px;
+    padding: 1.4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .rep-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 60px; height: 60px;
+    border-radius: 50% 0 0 0;
+    opacity: 0.15;
+  }
+  .rep-box.frac { background: linear-gradient(135deg, #7B2D8B, #9B4DCA); }
+  .rep-box.mix  { background: linear-gradient(135deg, #EF476F, #FF6B9D); }
+  .rep-box.dec  { background: linear-gradient(135deg, #118AB2, #48CAE4); }
+  .rep-box.pct  { background: linear-gradient(135deg, #06D6A0, #0A9E76); }
+  .rep-box h3 { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .rep-box .big { font-size: 2.5rem; font-weight: 900; line-height: 1; }
+  .rep-box .frac-display { display: inline-flex; flex-direction: column; align-items: center; }
+  .rep-box .frac-line { width: 40px; height: 3px; background: #fff; margin: 3px 0; }
+  .rep-box p { font-size: 0.8rem; margin-top: 0.5rem; color: rgba(255,255,255,0.75); }
+
+  /* PIZZA / PIE CHARTS */
+  .figures-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+  }
+  .figure-item {
+    text-align: center;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    min-width: 130px;
+  }
+  .figure-item p { font-size: 0.9rem; margin-top: 0.7rem; font-weight: 700; }
+
+  /* SVG shapes */
+  svg text { font-family: 'Nunito', sans-serif; }
+
+  /* NUMBER LINE */
+  .number-line-wrap {
+    overflow-x: auto;
+    padding: 1rem 0;
+  }
+
+  /* BAR CHART */
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.7rem;
+    height: 200px;
+    padding: 0 0.5rem;
+    margin: 1rem 0;
+  }
+  .bar-col { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; flex: 1; }
+  .bar {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transition: opacity 0.3s;
+    cursor: pointer;
+  }
+  .bar:hover { opacity: 0.8; }
+  .bar span { font-size: 0.75rem; font-weight: 800; padding: 4px 0; text-align: center; }
+  .bar-label { font-size: 0.75rem; font-weight: 700; text-align: center; color: rgba(255,255,255,0.7); }
+
+  /* ACTIVITY SECTIONS */
+  .act-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .act-badge {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .act-header h2 { font-family: 'Baloo 2', cursive; font-size: 1.5rem; }
+  .act-header small { font-size: 0.85rem; color: rgba(255,255,255,0.6); display: block; }
+
+  /* INTERACTIVE FRACTION BUILDER */
+  .fraction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+    gap: 4px;
+    margin: 1rem 0;
+  }
+  .frac-cell {
+    height: 36px;
+    border-radius: 6px;
+    border: 2px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .frac-cell.filled { background: var(--coral); border-color: var(--coral); }
+  .frac-cell:hover { transform: scale(1.15); }
+
+  .fraction-display {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    margin-top: 1rem;
+  }
+  .frac-repr { text-align: center; }
+  .frac-repr .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); margin-bottom: 0.4rem; }
+  .frac-repr .value {
+    font-size: 1.6rem;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+  .frac-repr .value .num { display: block; }
+  .frac-repr .value .ln { display: block; height: 3px; background: #fff; margin: 4px 0; border-radius: 2px; }
+  .frac-repr .value .den { display: block; }
+
+  /* SLIDERS CONTROL */
+  .controls { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 1rem 0; }
+  .ctrl-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .ctrl-group label { font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.7); }
+  .ctrl-group input[type=range] {
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.2);
+    outline: none;
+    width: 160px;
+  }
+  .ctrl-group input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--yellow);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  /* QUIZ */
+  .quiz-q { background: rgba(255,255,255,0.06); border-radius: 14px; padding: 1.3rem; margin-bottom: 1rem; }
+  .quiz-q p { font-weight: 700; margin-bottom: 1rem; }
+  .quiz-opts { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .quiz-opt {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    transition: all 0.2s;
+  }
+  .quiz-opt:hover { background: rgba(255,255,255,0.15); transform: scale(1.05); }
+  .quiz-opt.correct { background: var(--teal); border-color: var(--teal); color: #000; }
+  .quiz-opt.wrong { background: var(--coral); border-color: var(--coral); }
+  .quiz-feedback { font-size: 0.9rem; margin-top: 0.7rem; min-height: 1.5rem; }
+
+  /* SCORE */
+  #score-display {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    padding: 1rem;
+    background: rgba(255,209,102,0.1);
+    border: 2px solid var(--yellow);
+    border-radius: 14px;
+    color: var(--yellow);
+    margin-top: 1rem;
+  }
+
+  /* PERCENT BAR */
+  .pct-bar-wrap { margin: 1rem 0; }
+  .pct-bar-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; font-weight: 700; }
+  .pct-track { height: 30px; background: rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden; }
+  .pct-fill { height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-weight: 800; font-size: 0.9rem; transition: width 1s ease; }
+
+  /* TABS */
+  .sub-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .sub-tab {
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    border: 2px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sub-tab.active { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  /* INFO BOX */
+  .info-box {
+    display: flex;
+    gap: 1rem;
+    background: rgba(255,209,102,0.08);
+    border-left: 4px solid var(--yellow);
+    border-radius: 0 12px 12px 0;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    align-items: flex-start;
+  }
+  .info-box span { font-size: 1.5rem; }
+  .info-box div { font-size: 0.9rem; line-height: 1.6; color: rgba(255,255,255,0.85); }
+
+  .tip-box {
+    background: rgba(6,214,160,0.1);
+    border-left: 4px solid var(--teal);
+    border-radius: 0 12px 12px 0;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* RESPONSIVE */
+  @media(max-width:600px) {
+    .rep-table { grid-template-columns: repeat(2,1fr); }
+    .fraction-display { gap: 1rem; }
+    .controls { flex-direction: column; }
+    .ctrl-group input[type=range] { width: 100%; }
+    .bar-label { font-size: 0.65rem; }
+  }
+
+  /* SCROLL animations */
+  .card { transition: transform 0.3s; }
+  .card:hover { transform: translateY(-2px); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🍕 El Mundo de las Fracciones</h1>
+  <p>Grado 5° &nbsp;·&nbsp; Actividades interactivas con figuras y gráficas</p>
+</header>
+
+<nav class="nav">
+  <button class="nav-btn active" data-tab="intro">🏠 Inicio</button>
+  <button class="nav-btn" data-tab="a1">🍕 Actividad 1<br><small>Figuras</small></button>
+  <button class="nav-btn" data-tab="a2">🔢 Actividad 2<br><small>Constructor</small></button>
+  <button class="nav-btn" data-tab="a3">📊 Actividad 3<br><small>Barras</small></button>
+  <button class="nav-btn" data-tab="a4">💯 Actividad 4<br><small>Porcentajes</small></button>
+  <button class="nav-btn" data-tab="a5">🏆 Actividad 5<br><small>Quiz</small></button>
+</nav>
+
+<main>
+
+<!-- ===================== INTRO ===================== -->
+<div class="tab-content active" id="intro">
+  <div class="card">
+    <h2>📚 ¿Qué vamos a aprender?</h2>
+    <p>En estas actividades aprenderás a representar una misma cantidad de <strong>cuatro formas diferentes</strong>. Todas expresan el mismo valor, pero se escriben distinto.</p>
+    <div class="rep-table">
+      <div class="rep-box frac">
+        <h3>Fracción</h3>
+        <div class="big">
+          <div class="frac-display">
+            <span>3</span>
+            <span class="frac-line"></span>
+            <span>4</span>
+          </div>
+        </div>
+        <p>Numerador ÷ Denominador</p>
+      </div>
+      <div class="rep-box mix">
+        <h3>Mixto</h3>
+        <div class="big">1 ½</div>
+        <p>Entero + Fracción</p>
+      </div>
+      <div class="rep-box dec">
+        <h3>Decimal</h3>
+        <div class="big">0.75</div>
+        <p>Usa el punto decimal</p>
+      </div>
+      <div class="rep-box pct">
+        <h3>Porcentaje</h3>
+        <div class="big">75%</div>
+        <p>Partes por cada 100</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔄 Tabla de conversión</h2>
+    <p>Observa cómo la misma fracción aparece en los 4 formatos:</p>
+    <div style="overflow-x:auto;margin-top:1rem;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
+        <thead>
+          <tr style="background:rgba(255,255,255,0.1);">
+            <th style="padding:0.8rem;border-radius:8px 0 0 8px;">Fracción</th>
+            <th style="padding:0.8rem;">Número Mixto</th>
+            <th style="padding:0.8rem;">Decimal</th>
+            <th style="padding:0.8rem;border-radius:0 8px 8px 0;">Porcentaje</th>
+          </tr>
+        </thead>
+        <tbody id="conv-table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <span>💡</span>
+    <div><strong>Fórmulas clave:</strong><br>
+    • Fracción → Decimal: divide numerador ÷ denominador<br>
+    • Decimal → Porcentaje: multiplica por 100<br>
+    • Fracción impropia → Mixto: divide y usa el residuo</div>
+  </div>
+</div>
+
+<!-- ===================== A1: FIGURAS ===================== -->
+<div class="tab-content" id="a1">
+  <div class="act-header">
+    <div class="act-badge" style="background:var(--coral);">🍕</div>
+    <div>
+      <h2>Actividad 1: Figuras y Fracciones</h2>
+      <small>Observa las figuras y completa la tabla de representaciones</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Parte A — Figuras geométricas coloreadas</h2>
+    <p>Cada figura muestra una fracción coloreada. Identifica qué fracción representa la parte sombreada:</p>
+    <div class="figures-row" id="geo-figures"></div>
+  </div>
+
+  <div class="card">
+    <h2>Parte B — Recta Numérica</h2>
+    <p>Ubica las fracciones en la recta numérica. Los puntos indican dónde cae cada fracción:</p>
+    <div class="number-line-wrap">
+      <svg id="number-line" width="700" height="100" viewBox="0 0 700 100" style="max-width:100%;display:block;margin:0 auto;"></svg>
+    </div>
+    <div class="tip-box">💡 <strong>Observa:</strong> ½ = 0.5 = 50% cae justo en el centro entre 0 y 1. ¾ = 0.75 = 75% está más cerca del 1.</div>
+  </div>
+
+  <div class="card">
+    <h2>Parte C — Gráfica circular (pizza)</h2>
+    <p>Cada "pizza" representa una fracción. ¿Cuántas porciones están coloreadas?</p>
+    <div class="figures-row" id="pizza-figures"></div>
+  </div>
+</div>
+
+<!-- ===================== A2: CONSTRUCTOR ===================== -->
+<div class="tab-content" id="a2">
+  <div class="act-header">
+    <div class="act-badge" style="background:var(--teal);color:#000;">🔢</div>
+    <div>
+      <h2>Actividad 2: Constructor de Fracciones</h2>
+      <small>Mueve los controles y observa cómo cambian las 4 representaciones</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="controls">
+      <div class="ctrl-group">
+        <label>Numerador: <strong id="num-val">3</strong></label>
+        <input type="range" id="num-slider" min="1" max="19" value="3">
+      </div>
+      <div class="ctrl-group">
+        <label>Denominador: <strong id="den-val">4</strong></label>
+        <input type="range" id="den-slider" min="2" max="20" value="4">
+      </div>
+    </div>
+
+    <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);margin-bottom:1rem;">Haz clic en las celdas de la cuadrícula para colorear la fracción manualmente:</p>
+    <div class="fraction-grid" id="frac-grid"></div>
+
+    <div class="fraction-display" id="frac-disp">
+      <div class="frac-repr">
+        <div class="label">Fracción</div>
+        <div class="value" id="d-frac">—</div>
+      </div>
+      <div class="frac-repr">
+        <div class="label">Número mixto</div>
+        <div class="value" id="d-mix">—</div>
+      </div>
+      <div class="frac-repr">
+        <div class="label">Decimal</div>
+        <div class="value" id="d-dec">—</div>
+      </div>
+      <div class="frac-repr">
+        <div class="label">Porcentaje</div>
+        <div class="value" id="d-pct">—</div>
+      </div>
+    </div>
+
+    <!-- Visual bar -->
+    <div style="margin-top:1.5rem;">
+      <div class="pct-bar-label">
+        <span>0%</span>
+        <span id="pct-bar-label-val">—</span>
+        <span>100%</span>
+      </div>
+      <div class="pct-track">
+        <div class="pct-fill" id="pct-fill" style="width:0%;background:var(--coral);">
+          <span id="pct-fill-txt"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie chart -->
+    <div style="display:flex;justify-content:center;margin-top:1.5rem;">
+      <svg id="builder-pie" width="160" height="160" viewBox="-1 -1 2 2" style="transform:rotate(-90deg);border-radius:50%;overflow:visible;"></svg>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <span>📝</span>
+    <div>
+      <strong>Pista:</strong> Cuando el numerador es mayor que el denominador, tenemos una <em>fracción impropia</em> y la puedes escribir como número mixto.<br>
+      Ejemplo: 7/4 = 1 y ¾ = 1.75 = 175%
+    </div>
+  </div>
+</div>
+
+<!-- ===================== A3: BARRAS ===================== -->
+<div class="tab-content" id="a3">
+  <div class="act-header">
+    <div class="act-badge" style="background:var(--blue);">📊</div>
+    <div>
+      <h2>Actividad 3: Gráfica de Barras</h2>
+      <small>Compara fracciones equivalentes usando barras visuales</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Fracciones equivalentes — Gráfica comparativa</h2>
+    <p>Todas estas fracciones son equivalentes a <strong style="color:var(--yellow);">½</strong>. Observa cómo sus barras tienen la misma altura:</p>
+    <div class="bar-chart" id="equiv-chart"></div>
+    <div class="tip-box">🧮 <strong>¿Por qué son iguales?</strong> Porque al dividir se obtiene el mismo decimal: 0.5 = 50%</div>
+  </div>
+
+  <div class="card">
+    <h2>Comparación de fracciones diferentes</h2>
+    <p>Ahora compara fracciones de diferente tamaño. ¿Cuál es la mayor?</p>
+    <div class="bar-chart" id="compare-chart"></div>
+    <div style="margin-top:1rem;">
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.7);">Orden de mayor a menor:</p>
+      <div id="order-display" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;font-weight:800;font-size:1.1rem;"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📐 Fracciones del mundo real</h2>
+    <p>En una clase de 20 estudiantes, ¿qué fracción prefiere cada actividad?</p>
+    <div class="bar-chart" id="real-chart"></div>
+    <div id="real-table" style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.7rem;"></div>
+  </div>
+</div>
+
+<!-- ===================== A4: PORCENTAJES ===================== -->
+<div class="tab-content" id="a4">
+  <div class="act-header">
+    <div class="act-badge" style="background:var(--purple);">💯</div>
+    <div>
+      <h2>Actividad 4: El Mundo del Porcentaje</h2>
+      <small>Visualiza porcentajes con situaciones de la vida cotidiana</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Situaciones con porcentajes</h2>
+    <p>Relaciona cada situación con su fracción, decimal y porcentaje:</p>
+    <div id="pct-situations"></div>
+  </div>
+
+  <div class="card">
+    <h2>🎨 Cuadrícula de 100</h2>
+    <p>Esta cuadrícula tiene 100 cuadros. Haz clic en los cuadros para colorear un porcentaje y observa las 4 representaciones:</p>
+    <div id="grid100" style="display:grid;grid-template-columns:repeat(10,1fr);gap:3px;max-width:360px;margin:1rem auto;"></div>
+    <div class="fraction-display" id="grid100-display" style="margin-top:1rem;justify-content:center;">
+      <div class="frac-repr"><div class="label">Fracción</div><div class="value" id="g100-frac">0/100</div></div>
+      <div class="frac-repr"><div class="label">Simplificada</div><div class="value" id="g100-simp">0</div></div>
+      <div class="frac-repr"><div class="label">Decimal</div><div class="value" id="g100-dec">0.00</div></div>
+      <div class="frac-repr"><div class="label">%</div><div class="value" id="g100-pct">0%</div></div>
+    </div>
+    <button onclick="clearGrid100()" style="margin-top:1rem;padding:0.5rem 1.2rem;border-radius:8px;border:none;background:rgba(255,255,255,0.1);color:#fff;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;">Borrar cuadrícula</button>
+  </div>
+</div>
+
+<!-- ===================== A5: QUIZ ===================== -->
+<div class="tab-content" id="a5">
+  <div class="act-header">
+    <div class="act-badge" style="background:var(--yellow);color:#000;">🏆</div>
+    <div>
+      <h2>Actividad 5: ¡Ponte a prueba!</h2>
+      <small>Quiz interactivo — 8 preguntas sobre las 4 representaciones</small>
+    </div>
+  </div>
+
+  <div class="card" id="quiz-container"></div>
+  <div id="score-display" style="display:none;"></div>
+</div>
+
+</main>
+
+<script>
+// ======================== HELPERS ========================
+function gcd(a,b){ return b===0 ? a : gcd(b, a%b); }
+function simplify(n,d){ const g=gcd(Math.abs(n),Math.abs(d)); return [n/g, d/g]; }
+function toDecimal(n,d){ return (n/d).toFixed(4).replace(/\.?0+$/,''); }
+function toPct(n,d){ return ((n/d)*100).toFixed(2).replace(/\.?0+$/,'')+'%'; }
+function toMixed(n,d){
+  if(n<d) return `${n}/${d}`;
+  const whole = Math.floor(n/d);
+  const rem = n%d;
+  if(rem===0) return `${whole}`;
+  return `${whole} ${rem}/${d}`;
+}
+
+// ======================== NAV ========================
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ======================== INTRO TABLE ========================
+const convData=[
+  [1,4],[1,2],[3,4],[1,5],[2,5],[3,5],[4,5],
+  [1,3],[2,3],[5,4],[7,4],[3,2]
+];
+const tbody=document.getElementById('conv-table-body');
+convData.forEach(([n,d],i)=>{
+  const dec=(n/d);
+  const pct=(dec*100).toFixed(2).replace(/\.?0+$/,'');
+  const mixStr = n<d ? '—' : toMixed(n,d);
+  const colors=['rgba(123,45,139,0.2)','rgba(239,71,111,0.2)','rgba(17,138,178,0.2)','rgba(6,214,160,0.2)'];
+  const row=document.createElement('tr');
+  row.style.background=colors[i%4];
+  row.innerHTML=`<td style="padding:0.7rem;text-align:center;font-weight:800;font-size:1.1rem;">${n}/${d}</td>
+    <td style="padding:0.7rem;text-align:center;font-weight:700;">${mixStr}</td>
+    <td style="padding:0.7rem;text-align:center;font-weight:700;">${dec.toFixed(4).replace(/\.?0+$|(\.\d*?)0+$/,'$1')}</td>
+    <td style="padding:0.7rem;text-align:center;font-weight:700;">${pct}%</td>`;
+  tbody.appendChild(row);
+});
+
+// ======================== A1: GEO FIGURES ========================
+const geoData=[
+  {n:1,d:2,shape:'square',label:'Cuadrado'},
+  {n:3,d:4,shape:'circle',label:'Círculo'},
+  {n:2,d:3,shape:'rect',label:'Rectángulo'},
+  {n:1,d:4,shape:'triangle',label:'Triángulo'},
+  {n:5,d:8,shape:'hex',label:'Hexágono'},
+];
+
+function drawSquare(n,d,size=90){
+  const cols=Math.ceil(Math.sqrt(d));
+  const rows=Math.ceil(d/cols);
+  const cellW=size/cols, cellH=size/rows;
+  let s=`<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">`;
+  for(let i=0;i<d;i++){
+    const cx=(i%cols)*cellW, cy=Math.floor(i/cols)*cellH;
+    s+=`<rect x="${cx+1}" y="${cy+1}" width="${cellW-2}" height="${cellH-2}" rx="3"
+      fill="${i<n?'#EF476F':'rgba(255,255,255,0.08)'}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>`;
+  }
+  s+='</svg>';
+  return s;
+}
+
+function drawCircle(n,d,r=40){
+  const cx=44,cy=44,sw=2;
+  let s=`<svg width="88" height="88" viewBox="0 0 88 88">`;
+  for(let i=0;i<d;i++){
+    const startAngle=(2*Math.PI*i/d)-Math.PI/2;
+    const endAngle=(2*Math.PI*(i+1)/d)-Math.PI/2;
+    const x1=cx+r*Math.cos(startAngle), y1=cy+r*Math.sin(startAngle);
+    const x2=cx+r*Math.cos(endAngle), y2=cy+r*Math.sin(endAngle);
+    const large=((endAngle-startAngle)>Math.PI)?1:0;
+    const fill=i<n?'#7B2D8B':'rgba(255,255,255,0.08)';
+    s+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} Z"
+      fill="${fill}" stroke="rgba(255,255,255,0.3)" stroke-width="${sw}"/>`;
+  }
+  s+='</svg>';
+  return s;
+}
+
+function drawRect(n,d){
+  const w=120,h=50;
+  let s=`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">`;
+  const cellW=w/d;
+  for(let i=0;i<d;i++){
+    s+=`<rect x="${i*cellW+1}" y="1" width="${cellW-2}" height="${h-2}" rx="3"
+      fill="${i<n?'#06D6A0':'rgba(255,255,255,0.08)'}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>`;
+  }
+  s+='</svg>';
+  return s;
+}
+
+function drawTriangle(){
+  return `<svg width="90" height="80" viewBox="0 0 90 80">
+    <polygon points="45,5 85,75 5,75" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    <polygon points="45,5 65,40 25,40" fill="#FFD166"/>
+    <line x1="5" y1="75" x2="85" y2="75" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <line x1="45" y1="5" x2="45" y2="75" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  </svg>`;
+}
+
+function drawHex(n,d){
+  const cx=44,cy=44,r=38;
+  const pts=[];
+  for(let i=0;i<6;i++){
+    const a=(Math.PI/3)*i-Math.PI/6;
+    pts.push([cx+r*Math.cos(a), cy+r*Math.sin(a)]);
+  }
+  const polyStr=pts.map(p=>p.join(',')).join(' ');
+  // Color n of 6 triangles
+  let s=`<svg width="88" height="88" viewBox="0 0 88 88">`;
+  for(let i=0;i<6;i++){
+    const a1=(Math.PI/3)*i-Math.PI/6, a2=(Math.PI/3)*(i+1)-Math.PI/6;
+    const x1=cx+r*Math.cos(a1), y1=cy+r*Math.sin(a1);
+    const x2=cx+r*Math.cos(a2), y2=cy+r*Math.sin(a2);
+    s+=`<polygon points="${cx},${cy} ${x1},${y1} ${x2},${y2}"
+      fill="${i<n?'#118AB2':'rgba(255,255,255,0.08)'}" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>`;
+  }
+  s+='</svg>';
+  return s;
+}
+
+const geoFigs=document.getElementById('geo-figures');
+geoData.forEach(({n,d,shape,label})=>{
+  let svg='';
+  if(shape==='square') svg=drawSquare(n,d);
+  else if(shape==='circle') svg=drawCircle(n,d);
+  else if(shape==='rect') svg=drawRect(n,d);
+  else if(shape==='triangle') svg=drawTriangle();
+  else if(shape==='hex') svg=drawHex(n,d);
+  const [sn,sd]=simplify(n,d);
+  const item=document.createElement('div');
+  item.className='figure-item';
+  const dec=(n/d).toFixed(2);
+  const pct=((n/d)*100).toFixed(0);
+  item.innerHTML=`${svg}<p>${label}: <strong>${n}/${d}</strong><br>
+    <span style="color:rgba(255,255,255,0.6);font-size:0.8rem;">${dec} · ${pct}%</span></p>`;
+  geoFigs.appendChild(item);
+});
+
+// ======================== NUMBER LINE ========================
+(function(){
+  const svg=document.getElementById('number-line');
+  const W=700, H=100, y0=55;
+  // line
+  svg.innerHTML=`<line x1="30" y1="${y0}" x2="${W-30}" y2="${y0}" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+    <text x="24" y="${y0+5}" fill="#fff" font-size="12" text-anchor="middle">0</text>
+    <text x="${W-24}" y="${y0+5}" fill="#fff" font-size="12" text-anchor="middle">1</text>`;
+  const range=W-60;
+  const points=[
+    {n:1,d:4,color:'#EF476F'},
+    {n:1,d:3,color:'#FFD166'},
+    {n:1,d:2,color:'#06D6A0'},
+    {n:2,d:3,color:'#48CAE4'},
+    {n:3,d:4,color:'#7B2D8B'},
+    {n:4,d:5,color:'#FF9F1C'},
+  ];
+  let prev=-999;
+  points.forEach(({n,d,color},i)=>{
+    const x=30+range*(n/d);
+    const labelY= (i%2===0) ? y0-15 : y0+22;
+    svg.innerHTML+=`
+      <line x1="${x}" y1="${y0-6}" x2="${x}" y2="${y0+6}" stroke="${color}" stroke-width="3"/>
+      <circle cx="${x}" cy="${y0}" r="7" fill="${color}" stroke="#1A1A2E" stroke-width="2"/>
+      <text x="${x}" y="${labelY}" fill="${color}" font-size="11" text-anchor="middle" font-weight="700">${n}/${d}</text>
+      <text x="${x}" y="${labelY+13}" fill="${color}" font-size="9" text-anchor="middle">${((n/d)*100).toFixed(0)}%</text>`;
+  });
+})();
+
+// ======================== PIZZA ========================
+const pizzaData=[
+  {n:2,d:8,label:'2/8 = 1/4'},
+  {n:3,d:6,label:'3/6 = 1/2'},
+  {n:6,d:8,label:'6/8 = 3/4'},
+  {n:4,d:5,label:'4/5'},
+];
+const pizzaFigs=document.getElementById('pizza-figures');
+pizzaData.forEach(({n,d,label})=>{
+  const item=document.createElement('div');
+  item.className='figure-item';
+  item.innerHTML=`${drawCircle(n,d,38)}<p>${label}<br><span style="color:rgba(255,255,255,0.6);font-size:0.8rem;">${((n/d)*100).toFixed(0)}%</span></p>`;
+  pizzaFigs.appendChild(item);
+});
+
+// ======================== A2: CONSTRUCTOR ========================
+const numSlider=document.getElementById('num-slider');
+const denSlider=document.getElementById('den-slider');
+const numVal=document.getElementById('num-val');
+const denVal=document.getElementById('den-val');
+const fracGrid=document.getElementById('frac-grid');
+let manualCells=null;
+
+function updateBuilder(){
+  const n=parseInt(numSlider.value);
+  const d=parseInt(denSlider.value);
+  numVal.textContent=n;
+  denVal.textContent=d;
+
+  // Grid
+  fracGrid.style.gridTemplateColumns=`repeat(${Math.min(d,20)},1fr)`;
+  fracGrid.innerHTML='';
+  manualCells=null;
+  for(let i=0;i<d;i++){
+    const cell=document.createElement('div');
+    cell.className='frac-cell'+(i<n?' filled':'');
+    cell.addEventListener('click',()=>{
+      cell.classList.toggle('filled');
+      const filled=fracGrid.querySelectorAll('.frac-cell.filled').length;
+      updateDisplayOnly(filled,d);
+    });
+    fracGrid.appendChild(cell);
+  }
+  updateDisplayOnly(n,d);
+}
+
+function updateDisplayOnly(n,d){
+  const dec=n/d;
+  const pct=(dec*100);
+  const [sn,sd]=simplify(n,d);
+
+  // Fraction
+  document.getElementById('d-frac').innerHTML=
+    `<span class="num">${n}</span><span class="ln"></span><span class="den">${d}</span>`;
+
+  // Mixed
+  let mix='';
+  if(n===0) mix='0';
+  else if(n<d) mix=`${n}/${d}`;
+  else {
+    const whole=Math.floor(n/d), rem=n%d;
+    mix = rem===0 ? `${whole}` : `${whole} <span style="font-size:1.1rem;">${rem}/${d}</span>`;
+  }
+  document.getElementById('d-mix').innerHTML=mix;
+  document.getElementById('d-dec').textContent=dec.toFixed(3).replace(/0+$/,'').replace(/\.$/,'');
+  document.getElementById('d-pct').textContent=pct.toFixed(1).replace(/\.0$/,'')+'%';
+
+  // Bar
+  const fillPct=Math.min(pct,100);
+  document.getElementById('pct-fill').style.width=fillPct+'%';
+  document.getElementById('pct-fill-txt').textContent=pct.toFixed(0)+'%';
+  document.getElementById('pct-bar-label-val').textContent=pct.toFixed(1)+'%';
+
+  // Pie
+  const pieSvg=document.getElementById('builder-pie');
+  const ratio=Math.min(n/d,1);
+  if(ratio===0){
+    pieSvg.innerHTML=`<circle r="1" fill="rgba(255,255,255,0.08)"/>`;
+  } else if(ratio>=1){
+    pieSvg.innerHTML=`<circle r="1" fill="#EF476F"/>`;
+  } else {
+    const angle=2*Math.PI*ratio;
+    const x=Math.sin(angle), y=-Math.cos(angle);
+    const large=ratio>0.5?1:0;
+    pieSvg.innerHTML=`<circle r="1" fill="rgba(255,255,255,0.08)"/>
+      <path d="M0,0 L0,-1 A1,1 0 ${large} 1 ${x},${y} Z" fill="#EF476F"/>
+      <circle r="1" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.05"/>`;
+  }
+}
+
+numSlider.addEventListener('input',updateBuilder);
+denSlider.addEventListener('input',updateBuilder);
+updateBuilder();
+
+// ======================== A3: BAR CHARTS ========================
+function makeBarChart(containerId, items){
+  const chart=document.getElementById(containerId);
+  const maxH=180;
+  const maxVal=Math.max(...items.map(i=>i.val));
+  chart.innerHTML='';
+  items.forEach(({label,val,color})=>{
+    const h=Math.round((val/maxVal)*maxH);
+    const col=document.createElement('div');
+    col.className='bar-col';
+    const pct=(val*100).toFixed(0);
+    col.innerHTML=`<div class="bar" style="height:${h}px;background:${color};">
+        <span>${val}</span>
+      </div>
+      <div class="bar-label">${label}</div>`;
+    chart.appendChild(col);
+  });
+}
+
+makeBarChart('equiv-chart',[
+  {label:'1/2',val:0.5,color:'#EF476F'},
+  {label:'2/4',val:0.5,color:'#FF6B9D'},
+  {label:'3/6',val:0.5,color:'#FFD166'},
+  {label:'4/8',val:0.5,color:'#FF9F1C'},
+  {label:'5/10',val:0.5,color:'#06D6A0'},
+  {label:'6/12',val:0.5,color:'#48CAE4'},
+  {label:'50%',val:0.5,color:'#7B2D8B'},
+  {label:'0.5',val:0.5,color:'#118AB2'},
+]);
+
+const compareItems=[
+  {label:'1/4',val:0.25,color:'#118AB2'},
+  {label:'1/3',val:0.333,color:'#48CAE4'},
+  {label:'2/5',val:0.4,color:'#06D6A0'},
+  {label:'1/2',val:0.5,color:'#FFD166'},
+  {label:'3/5',val:0.6,color:'#FF9F1C'},
+  {label:'2/3',val:0.667,color:'#EF476F'},
+  {label:'3/4',val:0.75,color:'#FF6B9D'},
+  {label:'4/5',val:0.8,color:'#7B2D8B'},
+];
+makeBarChart('compare-chart',compareItems);
+
+const sortedItems=[...compareItems].sort((a,b)=>b.val-a.val);
+const orderDiv=document.getElementById('order-display');
+sortedItems.forEach(item=>{
+  const el=document.createElement('span');
+  el.style.color=item.color;
+  el.textContent=item.label;
+  orderDiv.appendChild(el);
+  if(item!==sortedItems[sortedItems.length-1]){
+    const gt=document.createElement('span');
+    gt.textContent=' > ';
+    gt.style.color='rgba(255,255,255,0.4)';
+    orderDiv.appendChild(gt);
+  }
+});
+
+const realData=[
+  {label:'Fútbol\n8/20',val:0.4,color:'#EF476F'},
+  {label:'Lectura\n5/20',val:0.25,color:'#118AB2'},
+  {label:'Arte\n4/20',val:0.2,color:'#7B2D8B'},
+  {label:'Música\n2/20',val:0.1,color:'#FFD166'},
+  {label:'Juegos\n1/20',val:0.05,color:'#06D6A0'},
+];
+makeBarChart('real-chart',realData);
+
+const realTable=document.getElementById('real-table');
+realData.forEach(({label,val,color})=>{
+  const [actLabel,frac]=label.split('\n');
+  const pct=(val*100).toFixed(0);
+  realTable.innerHTML+=`<div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:0.8rem;border-left:4px solid ${color};">
+    <strong>${actLabel}</strong><br>
+    <span style="font-size:0.85rem;color:rgba(255,255,255,0.6);">${frac} = ${val.toFixed(2)} = ${pct}%</span>
+  </div>`;
+});
+
+// ======================== A4: PORCENTAJES ========================
+const situations=[
+  {context:'🍰 Comiste 3 de 4 pedazos de pastel',n:3,d:4,color:'#EF476F'},
+  {context:'🎯 Acertaste 7 de 10 preguntas',n:7,d:10,color:'#FFD166'},
+  {context:'💧 La botella tiene 1 de 2 litros',n:1,d:2,color:'#118AB2'},
+  {context:'📚 Leíste 2 de 5 capítulos',n:2,d:5,color:'#06D6A0'},
+  {context:'⭐ Ganaste 9 de cada 10 estrellas',n:9,d:10,color:'#7B2D8B'},
+];
+const sitDiv=document.getElementById('pct-situations');
+situations.forEach(({context,n,d,color})=>{
+  const pct=((n/d)*100).toFixed(0);
+  const dec=(n/d).toFixed(2);
+  const [sn,sd]=simplify(n,d);
+  sitDiv.innerHTML+=`<div class="pct-bar-wrap">
+    <div class="pct-bar-label">
+      <span>${context}</span>
+      <span style="color:${color}">${n}/${d} = ${dec} = ${pct}%</span>
+    </div>
+    <div class="pct-track">
+      <div class="pct-fill" style="width:${pct}%;background:${color};">${pct}%</div>
+    </div>
+  </div>`;
+});
+
+// Grid 100
+const grid100=document.getElementById('grid100');
+let grid100State=new Array(100).fill(false);
+for(let i=0;i<100;i++){
+  const cell=document.createElement('div');
+  cell.style.cssText='height:28px;border-radius:3px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.15s;';
+  cell.addEventListener('click',()=>{
+    grid100State[i]=!grid100State[i];
+    cell.style.background=grid100State[i]?'#EF476F':'rgba(255,255,255,0.06)';
+    updateGrid100();
+  });
+  grid100.appendChild(cell);
+}
+function updateGrid100(){
+  const count=grid100State.filter(Boolean).length;
+  const [sn,sd]=simplify(count,100);
+  document.getElementById('g100-frac').textContent=`${count}/100`;
+  document.getElementById('g100-simp').textContent=count===0?'0':`${sn}/${sd}`;
+  document.getElementById('g100-dec').textContent=(count/100).toFixed(2);
+  document.getElementById('g100-pct').textContent=count+'%';
+}
+window.clearGrid100=function(){
+  grid100State.fill(false);
+  grid100.querySelectorAll('div').forEach(c=>c.style.background='rgba(255,255,255,0.06)');
+  updateGrid100();
+};
+
+// ======================== A5: QUIZ ========================
+const quizData=[
+  {q:'¿Cuál es la representación decimal de 3/4?',opts:['0.25','0.50','0.75','1.25'],correct:2,
+   hint:'3 ÷ 4 = 0.75'},
+  {q:'¿Qué porcentaje representa la fracción 1/5?',opts:['10%','15%','20%','25%'],correct:2,
+   hint:'1 ÷ 5 = 0.20 → 20%'},
+  {q:'¿Cuál es el número mixto equivalente a 9/4?',opts:['1 1/4','2 1/4','2 3/4','3 1/4'],correct:1,
+   hint:'9 ÷ 4 = 2 con residuo 1 → 2 y 1/4'},
+  {q:'Si coloreaste 60 de 100 cuadros, ¿qué fracción en su mínima expresión representa eso?',
+   opts:['60/100','3/5','6/10','12/20'],correct:1,
+   hint:'60/100 ÷ 20/20 = 3/5'},
+  {q:'¿Qué fracción es igual a 0.25?',opts:['1/3','1/4','2/5','3/8'],correct:1,
+   hint:'0.25 = 25/100 = 1/4'},
+  {q:'¿Cuál es el decimal de 2/3 (aproximado)?',opts:['0.33','0.50','0.67','0.75'],correct:2,
+   hint:'2 ÷ 3 ≈ 0.6667 ≈ 0.67'},
+  {q:'En una clase, 15 de 20 estudiantes aprobaron. ¿Qué porcentaje aprobó?',
+   opts:['60%','70%','75%','80%'],correct:2,
+   hint:'15/20 = 3/4 = 0.75 = 75%'},
+  {q:'¿Cuál de estas fracciones es MAYOR que 1/2?',opts:['3/8','2/5','5/9','4/10'],correct:2,
+   hint:'5/9 ≈ 0.556, que es > 0.5'},
+];
+
+let score=0;
+let answered=new Array(quizData.length).fill(false);
+const quizContainer=document.getElementById('quiz-container');
+quizData.forEach(({q,opts,correct,hint},qi)=>{
+  const qDiv=document.createElement('div');
+  qDiv.className='quiz-q';
+  const optButtons=opts.map((o,oi)=>`<button class="quiz-opt" onclick="checkAnswer(${qi},${oi},${correct},'${hint}')">${o}</button>`).join('');
+  qDiv.innerHTML=`<p>${qi+1}. ${q}</p>
+    <div class="quiz-opts">${optButtons}</div>
+    <div class="quiz-feedback" id="fb-${qi}"></div>`;
+  quizContainer.appendChild(qDiv);
+});
+
+window.checkAnswer=function(qi,chosen,correct,hint){
+  if(answered[qi]) return;
+  answered[qi]=true;
+  const qDiv=quizContainer.children[qi];
+  const btns=qDiv.querySelectorAll('.quiz-opt');
+  btns.forEach((b,i)=>{
+    b.disabled=true;
+    if(i===correct) b.classList.add('correct');
+    else if(i===chosen) b.classList.add('wrong');
+  });
+  const fb=document.getElementById(`fb-${qi}`);
+  if(chosen===correct){
+    score++;
+    fb.innerHTML=`✅ <strong>¡Correcto!</strong> ${hint}`;
+    fb.style.color='#06D6A0';
+  } else {
+    fb.innerHTML=`❌ Incorrecto. ${hint}`;
+    fb.style.color='#EF476F';
+  }
+  if(answered.every(Boolean)){
+    const sd=document.getElementById('score-display');
+    sd.style.display='block';
+    const pct=Math.round((score/quizData.length)*100);
+    const msg=pct>=80?'🏆 ¡Excelente!':pct>=60?'👍 ¡Bien hecho!':'📚 Sigue practicando';
+    sd.innerHTML=`${msg}<br>Tu puntaje: <strong>${score} / ${quizData.length}</strong> (${pct}%)`;
+  }
+};
+</script>
+
+</body>
+</html>
